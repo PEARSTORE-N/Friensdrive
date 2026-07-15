@@ -46,7 +46,7 @@ namespace Fri3ndsDrive.Api.Controllers
                 return NotFound(new { mensaje = "Usuario no encontrado." });
             }
 
-            string carpetaUploads = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+            string carpetaUploads = Path.Combine(_env.ContentRootPath, "Uploads");
 
             if (!Directory.Exists(carpetaUploads))
             {
