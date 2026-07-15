@@ -1,0 +1,19 @@
+# .NET build output
+bin/
+obj/
+*.user
+
+# Local secrets / machine-specific
+Fri3ndsDrive.Api/appsettings.Development.json
+
+# Runtime data
+Fri3ndsDrive.Api/Uploads/
+Fri3ndsDrive.Api/wwwroot/
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Editor / OS
+.vs/
+*.swp
+.DS_Store

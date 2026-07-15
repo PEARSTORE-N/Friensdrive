@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fri3nds Drive | Crear cuenta</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="fondo-ambiental" aria-hidden="true">
+        <span class="orbe orbe-a"></span>
+        <span class="orbe orbe-b"></span>
+        <span class="rejilla"></span>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <a class="logo" href="index.html">
+                <span class="logo-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17.5 19a4.5 4.5 0 0 0 .5-8.97A6 6 0 0 0 6.1 9.4 3.8 3.8 0 0 0 6.5 19z"/>
+                        <path d="M12 12v5"/><path d="M9.5 14.5 12 17l2.5-2.5"/>
+                    </svg>
+                </span>
+                <span class="logo-texto">Fri3nds <b>Drive</b></span>
+            </a>
+            <div class="nav-text">Crear cuenta nueva</div>
+        </div>
+    </nav>
+
+    <main class="form-page">
+        <section class="form-card">
+
+            <span class="eyebrow">Paso 1 de 1</span>
+            <h2>Crear cuenta</h2>
+            <p class="form-description">
+                Regístrate para empezar a guardar, analizar y encontrar tus documentos con IA.
+            </p>
+
+            <div class="campo">
+                <label for="nombreRegistro">Nombre completo</label>
+                <input type="text" id="nombreRegistro" placeholder="Tu nombre completo" autocomplete="name">
+            </div>
+
+            <div class="campo">
+                <label for="correoRegistro">Correo electrónico</label>
+                <input type="email" id="correoRegistro" placeholder="nombre@correo.com" autocomplete="email">
+            </div>
+
+            <div class="campo">
+                <label for="passwordRegistro">Contraseña</label>
+                <input type="password" id="passwordRegistro" placeholder="••••••••" autocomplete="new-password">
+            </div>
+
+            <div class="campo">
+                <label for="confirmarPasswordRegistro">Confirmar contraseña</label>
+                <input type="password" id="confirmarPasswordRegistro" placeholder="••••••••" autocomplete="new-password">
+            </div>
+
+            <button class="btn btn-primario" onclick="registrarUsuario()">Crear cuenta</button>
+            <button class="btn btn-secundario" onclick="window.close()">Cerrar pestaña</button>
+
+            <!-- app.js escribe aquí el resultado del registro -->
+            <p class="mensaje" id="mensajeRegistro"></p>
+
+        </section>
+    </main>
+
+    <div id="toastZona" class="toast-zona" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
