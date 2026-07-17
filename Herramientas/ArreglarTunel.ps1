@@ -50,8 +50,8 @@ $urlNueva = $null
 while (-not $urlNueva -and $intentos -lt 10) {
     if (Test-Path $rutaLog) {
         $contenido = Get-Content $rutaLog -Raw
-        $match = [regex]::Match($contenido, 'https://[a-z0-9\-]+\.trycloudflare\.com')
-        if ($match.Success) { $urlNueva = $match.Value }
+        $matches = [regex]::Matches($contenido, 'https://[a-z0-9\-]+\.trycloudflare\.com')
+        if ($matches.Count -gt 0) { $urlNueva = $matches[$matches.Count - 1].Value }
     }
     if (-not $urlNueva) { Start-Sleep -Seconds 2; $intentos++ }
 }
@@ -89,14 +89,12 @@ try {
 try {
     Log "5) Subiendo el cambio a GitHub..."
     Push-Location $rutaProyecto
-    git add "Fri3ndsDrive.Frontend/app.js" 2>&1 | Out-String | Log
+    git add "Fri3ndsDrive.Frontend/app.js" | Out-Null
     $fecha = Get-Date -Format "yyyy-MM-dd HH:mm"
-    $commitOut = git commit -m "Actualizar URL del tunel ($fecha)" 2>&1 | Out-String
-    Log $commitOut
-    $pushOut = git push 2>&1 | Out-String
-    Log $pushOut
+    git commit -m "Actualizar URL del tunel ($fecha)" | Out-Null
+    git push
     Pop-Location
-    Log "   Git: OK"
+    Log "   Git: OK (push realizado)"
 } catch {
     Log "   ERROR con git: $_"
 }
