@@ -17,3 +17,8 @@ Fri3ndsDrive.Api/wwwroot/
 .vs/
 *.swp
 .DS_Store
+
+# Herramientas de mantenimiento
+Herramientas/*.log
+Herramientas/*_log.txt
+Herramientas/.ejecutando.lock
