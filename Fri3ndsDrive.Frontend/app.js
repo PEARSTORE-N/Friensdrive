@@ -1,22 +1,22 @@
 /* ============================================================
-   FRI3NDS DRIVE — Lógica de la aplicación
-   Se conserva la conexión original con el backend:
+   FRI3NDS DRIVE â€” LÃ³gica de la aplicaciÃ³n
+   Se conserva la conexiÃ³n original con el backend:
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://applicable-field-expiration-cruises.trycloudflare.com/api";
+const API_URL = "https://sci-keeping-monitors-treasury.trycloudflare.com/api";
 
 let usuarioActual = null;
 
 /* ------------------------------------------------------------
-   Utilidades de interfaz (avisos, mensajes, confirmación)
+   Utilidades de interfaz (avisos, mensajes, confirmaciÃ³n)
    ------------------------------------------------------------ */
 
 /** Muestra un aviso flotante en la esquina inferior. */
 function mostrarAviso(texto, tipo = "info") {
     const zona = document.getElementById("toastZona");
 
-    // Si la página no tiene zona de avisos, no se rompe nada.
+    // Si la pÃ¡gina no tiene zona de avisos, no se rompe nada.
     if (!zona) return;
 
     const toast = document.createElement("div");
@@ -30,7 +30,7 @@ function mostrarAviso(texto, tipo = "info") {
     }, 3200);
 }
 
-/** Escribe un mensaje dentro de la tarjeta (login, registro, recuperación). */
+/** Escribe un mensaje dentro de la tarjeta (login, registro, recuperaciÃ³n). */
 function escribirMensaje(idElemento, texto, tipo = "info") {
     const elemento = document.getElementById(idElemento);
     if (!elemento) return;
@@ -39,11 +39,11 @@ function escribirMensaje(idElemento, texto, tipo = "info") {
     elemento.innerText = texto || "";
 }
 
-/** Confirmación visual dentro de la página. Devuelve una promesa booleana. */
+/** ConfirmaciÃ³n visual dentro de la pÃ¡gina. Devuelve una promesa booleana. */
 function confirmarAccion(titulo, texto) {
     const modal = document.getElementById("modalConfirmar");
 
-    // Respaldo si el modal no existe en la página.
+    // Respaldo si el modal no existe en la pÃ¡gina.
     if (!modal) return Promise.resolve(confirm(texto));
 
     const btnAceptar = document.getElementById("modalAceptar");
@@ -77,7 +77,7 @@ function formatearTamano(bytes) {
     return `${(n / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-/** Obtiene la extensión para el ícono de la tarjeta de archivo. */
+/** Obtiene la extensiÃ³n para el Ã­cono de la tarjeta de archivo. */
 function obtenerExtension(nombre) {
     if (!nombre || !nombre.includes(".")) return "FILE";
     return nombre.split(".").pop().toUpperCase().slice(0, 4);
@@ -91,7 +91,7 @@ function limpiarTexto(texto) {
 }
 
 /* ------------------------------------------------------------
-   Navegación entre pantallas
+   NavegaciÃ³n entre pantallas
    ------------------------------------------------------------ */
 
 function abrirRegistro() {
@@ -103,7 +103,7 @@ function abrirRecuperacion() {
 }
 
 /* ------------------------------------------------------------
-   Autenticación
+   AutenticaciÃ³n
    ------------------------------------------------------------ */
 
 async function registrarUsuario() {
@@ -118,7 +118,7 @@ async function registrarUsuario() {
     }
 
     if (password !== confirmarPassword) {
-        escribirMensaje("mensajeRegistro", "Las contraseñas no coinciden.", "error");
+        escribirMensaje("mensajeRegistro", "Las contraseÃ±as no coinciden.", "error");
         return;
     }
 
@@ -140,7 +140,7 @@ async function registrarUsuario() {
         escribirMensaje("mensajeRegistro", data.mensaje, respuesta.ok ? "ok" : "error");
 
         if (respuesta.ok) {
-            mostrarAviso("Cuenta creada. Ya puedes iniciar sesión.", "ok");
+            mostrarAviso("Cuenta creada. Ya puedes iniciar sesiÃ³n.", "ok");
 
             document.getElementById("nombreRegistro").value = "";
             document.getElementById("correoRegistro").value = "";
@@ -159,7 +159,7 @@ async function iniciarSesion() {
     const password = document.getElementById("passwordLogin").value;
 
     if (!correo || !password) {
-        escribirMensaje("mensajeLogin", "Escribe correo y contraseña.", "error");
+        escribirMensaje("mensajeLogin", "Escribe correo y contraseÃ±a.", "error");
         return;
     }
 
@@ -186,7 +186,7 @@ async function iniciarSesion() {
             document.getElementById("dashboard").style.display = "block";
             document.getElementById("usuarioTexto").innerText = `Bienvenido, ${usuarioActual.nombre}`;
 
-            mostrarAviso(`Sesión iniciada como ${usuarioActual.nombre}.`, "ok");
+            mostrarAviso(`SesiÃ³n iniciada como ${usuarioActual.nombre}.`, "ok");
 
             cargarArchivos();
         }
@@ -202,7 +202,7 @@ async function solicitarRecuperacion() {
     const codigoBox = document.getElementById("codigoBox");
 
     if (!correo) {
-        escribirMensaje("mensajeRecuperacion", "Escribe tu correo electrónico.", "error");
+        escribirMensaje("mensajeRecuperacion", "Escribe tu correo electrÃ³nico.", "error");
         return;
     }
 
@@ -221,11 +221,11 @@ async function solicitarRecuperacion() {
 
         escribirMensaje("mensajeRecuperacion", data.mensaje, respuesta.ok ? "ok" : "error");
 
-        // El backend puede devolver el código temporal para pruebas.
+        // El backend puede devolver el cÃ³digo temporal para pruebas.
         if (data.codigoTemporal) {
             codigoBox.style.display = "block";
-            codigoBox.innerText = `Código temporal para pruebas: ${data.codigoTemporal}`;
-            mostrarAviso("Código de recuperación generado.", "ok");
+            codigoBox.innerText = `CÃ³digo temporal para pruebas: ${data.codigoTemporal}`;
+            mostrarAviso("CÃ³digo de recuperaciÃ³n generado.", "ok");
         }
 
     } catch (error) {
@@ -246,7 +246,7 @@ async function restablecerPassword() {
     }
 
     if (nuevaPassword !== confirmarNuevaPassword) {
-        escribirMensaje("mensajeRecuperacion", "Las contraseñas no coinciden.", "error");
+        escribirMensaje("mensajeRecuperacion", "Las contraseÃ±as no coinciden.", "error");
         return;
     }
 
@@ -268,7 +268,7 @@ async function restablecerPassword() {
         escribirMensaje("mensajeRecuperacion", data.mensaje, respuesta.ok ? "ok" : "error");
 
         if (respuesta.ok) {
-            mostrarAviso("Contraseña actualizada.", "ok");
+            mostrarAviso("ContraseÃ±a actualizada.", "ok");
 
             document.getElementById("codigoRecuperacion").value = "";
             document.getElementById("nuevaPassword").value = "";
@@ -287,7 +287,7 @@ async function restablecerPassword() {
 
 async function subirArchivo() {
     if (!usuarioActual) {
-        mostrarAviso("Primero inicia sesión.", "error");
+        mostrarAviso("Primero inicia sesiÃ³n.", "error");
         return;
     }
 
@@ -302,7 +302,7 @@ async function subirArchivo() {
     formData.append("archivo", archivo);
     formData.append("idUsuario", usuarioActual.idUsuario);
 
-    mostrarAviso("Subiendo archivo. La IA lo está analizando...");
+    mostrarAviso("Subiendo archivo. La IA lo estÃ¡ analizando...");
 
     try {
         const respuesta = await fetch(`${API_URL}/archivos/subir`, {
@@ -362,7 +362,7 @@ async function buscarArchivos() {
 
     } catch (error) {
         console.error(error);
-        mostrarAviso("No se pudo completar la búsqueda.", "error");
+        mostrarAviso("No se pudo completar la bÃºsqueda.", "error");
     }
 }
 
@@ -421,7 +421,7 @@ function mostrarArchivos(archivos) {
 
 function descargarArchivo(idArchivo) {
     if (!usuarioActual) {
-        mostrarAviso("Primero inicia sesión.", "error");
+        mostrarAviso("Primero inicia sesiÃ³n.", "error");
         return;
     }
 
@@ -431,13 +431,13 @@ function descargarArchivo(idArchivo) {
 
 async function eliminarArchivo(idArchivo) {
     if (!usuarioActual) {
-        mostrarAviso("Primero inicia sesión.", "error");
+        mostrarAviso("Primero inicia sesiÃ³n.", "error");
         return;
     }
 
     const confirmar = await confirmarAccion(
         "Eliminar archivo",
-        "El archivo se borrará de tu nube junto con su resumen y etiquetas. Esta acción no se puede deshacer."
+        "El archivo se borrarÃ¡ de tu nube junto con su resumen y etiquetas. Esta acciÃ³n no se puede deshacer."
     );
 
     if (!confirmar) {
@@ -472,7 +472,7 @@ function cerrarSesion() {
     document.getElementById("correoLogin").value = "";
     document.getElementById("passwordLogin").value = "";
 
-    mostrarAviso("Sesión cerrada.");
+    mostrarAviso("SesiÃ³n cerrada.");
     window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -489,7 +489,7 @@ function actualizarNombreArchivo() {
 
     etiqueta.innerText = input.files.length > 0
         ? input.files[0].name
-        : "Ningún archivo seleccionado";
+        : "NingÃºn archivo seleccionado";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
