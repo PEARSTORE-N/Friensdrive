@@ -101,9 +101,27 @@ try {
     git add "Fri3ndsDrive.Frontend/app.js" | Out-Null
     $fecha = Get-Date -Format "yyyy-MM-dd HH:mm"
     git commit -m "Actualizar URL del tunel ($fecha)" | Out-Null
-    git push
+
+    # git push con limite de tiempo: si el administrador de credenciales se
+    # queda esperando una autenticacion que nadie puede aprobar (pasa en
+    # contextos elevados/automaticos), no dejamos que cuelgue el script para siempre.
+    $env:GIT_TERMINAL_PROMPT = "0"
+    $job = Start-Job -ScriptBlock {
+        param($ruta)
+        Set-Location $ruta
+        git push 2>&1
+    } -ArgumentList $rutaProyecto
+
+    if (Wait-Job $job -Timeout 60) {
+        Receive-Job $job | Out-String | Log
+        Log "   Git: OK (push realizado)"
+    } else {
+        Stop-Job $job
+        Log "   ERROR: git push tardo mas de 60s (probable prompt de credenciales colgado). Cancelado."
+        Log "   Revisa las credenciales guardadas de git para este usuario."
+    }
+    Remove-Job $job -Force -ErrorAction SilentlyContinue
     Pop-Location
-    Log "   Git: OK (push realizado)"
 } catch {
     Log "   ERROR con git: $_"
 }
