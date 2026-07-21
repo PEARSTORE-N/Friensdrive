@@ -1,15 +1,24 @@
 # ArreglarTunel.ps1
 # Reinicia el tunel de Cloudflare, toma la URL nueva, la mete en app.js
-# y sube el cambio a GitHub. Pensado para correr con doble clic en el .bat.
+# y sube el cambio a GitHub. Pensado para correr con doble clic en el .bat,
+# o solo, sin ventana, desde la Tarea Programada al iniciar sesion (-Auto).
+param(
+    [switch]$Auto
+)
 
 $logPath = "$PSScriptRoot\ArreglarTunel_log.txt"
 "=== $(Get-Date) ===" | Out-File $logPath
 
 # --- Auto-elevacion: si no somos administradores, nos relanzamos con UAC ---
+# (la Tarea Programada ya arranca elevado, asi que esto no dispara con -Auto)
 $esAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
 if (-not $esAdmin) {
     Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
     exit
+}
+
+function Pausar {
+    if (-not $Auto) { Read-Host "Presiona Enter para cerrar" }
 }
 
 $rutaProyecto = "C:\Users\nahum\Desktop\Fri3ndsDrive"
@@ -21,7 +30,7 @@ if (Test-Path $rutaLock) {
     $edad = (Get-Date) - (Get-Item $rutaLock).LastWriteTime
     if ($edad.TotalMinutes -lt 5) {
         Write-Host "Ya hay una ejecucion en curso (o muy reciente). Cerrando para evitar choques." -ForegroundColor Yellow
-        Read-Host "Presiona Enter para cerrar"
+        Pausar
         exit
     }
 }
@@ -59,7 +68,7 @@ while (-not $urlNueva -and $intentos -lt 10) {
 if (-not $urlNueva) {
     Log "   ERROR: no se encontro la URL nueva en el log."
     Log "=== Terminado con errores ==="
-    Read-Host "Presiona Enter para cerrar"
+    Pausar
     exit 1
 }
 Log "   URL nueva: $urlNueva"
@@ -103,9 +112,7 @@ Log ""
 Log "=== Listo ==="
 Log "URL publica actual: $urlNueva"
 Log ""
-Log "IMPORTANTE: todavia falta un paso manual -> volver a subir"
-Log "la carpeta Fri3ndsDrive.Frontend a Netlify para que la web"
-Log "use esta URL nueva."
+Log "Netlify esta conectado a GitHub, asi que se redeploya solo con el push de arriba."
 Log ""
 Remove-Item $rutaLock -Force -ErrorAction SilentlyContinue
-Read-Host "Presiona Enter para cerrar"
+Pausar
