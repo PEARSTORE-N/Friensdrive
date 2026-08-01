@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://responsible-skills-towns-associated.trycloudflare.com/api";
+const API_URL = "https://memorial-substance-platform-zones.trycloudflare.com/api";
 
 let usuarioActual = null;
 
