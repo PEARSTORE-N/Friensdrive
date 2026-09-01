@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://brass-slight-acute-transport.trycloudflare.com/api";
+const API_URL = "https://rate-lambda-stages-outer.trycloudflare.com/api";
 
 let usuarioActual = null;
 
