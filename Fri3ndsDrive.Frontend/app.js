@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://lemon-trainer-their-availability.trycloudflare.com/api";
+const API_URL = "https://purchases-edwards-gate-guestbook.trycloudflare.com/api";
 
 let usuarioActual = null;
 
