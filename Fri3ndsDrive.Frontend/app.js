@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://sugar-lexmark-hospitality-stability.trycloudflare.com/api";
+const API_URL = "https://gods-com-horizontal-classes.trycloudflare.com/api";
 
 let usuarioActual = null;
 
