@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://gods-com-horizontal-classes.trycloudflare.com/api";
+const API_URL = "https://frederick-rows-revision-kernel.trycloudflare.com/api";
 
 let usuarioActual = null;
 
