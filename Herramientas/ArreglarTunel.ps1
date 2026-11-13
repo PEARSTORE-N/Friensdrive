@@ -115,7 +115,7 @@ try {
         Log "   Arrancando la API desde $rutaApi ..."
         Start-Process -FilePath 'dotnet' -ArgumentList 'run', '--launch-profile', 'http' `
             -WorkingDirectory $rutaApi -WindowStyle Hidden `
-            -RedirectStandardOutput $rutaLogApi -RedirectStandardError "$rutaLogApi.err" | Out-Null
+            -RedirectStandardOutput $rutaLogApi -RedirectStandardError (Join-Path $PSScriptRoot 'api_err.log') | Out-Null
         $espera = 0
         while (-not (PuertoAbierto $puertoApi) -and $espera -lt 90) { Start-Sleep -Seconds 2; $espera += 2 }
         if (-not (PuertoAbierto $puertoApi)) { throw "La API no arranco en 90 s. Revisa $rutaLogApi" }
