@@ -4,7 +4,7 @@
    nombres de funciones, IDs, rutas y API_URL sin cambios.
    ============================================================ */
 
-const API_URL = "https://rivers-experimental-connection-adware.trycloudflare.com/api";
+const API_URL = "https://imported-momentum-rank-ratios.trycloudflare.com/api";
 
 let usuarioActual = null;
 
