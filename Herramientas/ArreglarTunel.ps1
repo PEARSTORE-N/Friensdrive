@@ -167,19 +167,23 @@ try {
             Log "   app.js actualizado OK"
         }
 
-        # 5) Verificar el tunel
+        # 5) Verificar el tunel. El DNS de la URL nueva tarda unos segundos en
+        # existir y Windows guarda en cache el "no existe", asi que se espera un
+        # poco y se limpia la cache DNS entre intentos (no requiere administrador).
         Log "5) Verificando que el tunel responda..."
+        Start-Sleep -Seconds 10
         $respondio = $false
-        for ($i = 0; $i -lt 10 -and -not $respondio; $i++) {
+        for ($i = 0; $i -lt 20 -and -not $respondio; $i++) {
+            Clear-DnsClientCache -ErrorAction SilentlyContinue
             try {
                 $resp = Invoke-WebRequest -Uri "$urlNueva/swagger/index.html" -UseBasicParsing -TimeoutSec 15
                 Log "   Respuesta: HTTP $($resp.StatusCode)"
                 $respondio = $true
             } catch {
-                Start-Sleep -Seconds 3
+                Start-Sleep -Seconds 5
             }
         }
-        if (-not $respondio) { Log "   AVISO: el tunel todavia no responde (a veces tarda un minuto)." }
+        if (-not $respondio) { Log "   AVISO: el tunel todavia no responde desde esta laptop (puede tardar un par de minutos en propagarse)." }
 
         # 6) Subir a GitHub
         Log "6) Subiendo el cambio a GitHub..."
